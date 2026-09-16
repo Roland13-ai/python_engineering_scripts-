@@ -1,0 +1,173 @@
+
+import matplotlib.pyplot as plt
+import sys
+from pathlib import Path
+
+# Adds the path to circuits.py
+sys.path.insert(0, str(Path(__file__).parent.parent / "day3"))
+from circuits import impedance_resistance, impedance_capacitor, impedance_series, modulus_and_phase
+
+# Parameters
+R = 1000
+C = 1e-6
+frequencies = np.logspace(0, 5, 200)  # 200 points from 1 Hz to 100 kHz
+
+# Initializes the empty lists
+modules = []
+phases = []
+
+# Calculates for each frequency
+for f in frequencies:
+    z_r = impedance_resistance(R)
+    z_c = impedance_capacitor(C, f)
+    z_eq = impedance_series(z_r, z_c)
+    mod, ph = modulus_and_phase(z_eq)
+    modules.append(mod)
+    phases.append(ph)
+
+# Plot
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
+
+ax1.semilogx(frequencies, modules)
+ax1.set_ylabel("Modulus (Ω)")
+ax1.set_title("Frequency response – RC low-pass filter")
+ax1.grid(True)
+
+ax2.semilogx(frequencies, phases)
+ax2.set_xlabel("Frequency (Hz)")
+ax2.set_ylabel("Phase (°)")
+ax2.grid(True)
+
+plt.tight_layout()
+plt.savefig("01_foundations/week1/day5/data/reponse_RC.png")
+plt.show()
+
+
+
+a= Block-by-block explanation
+
+Block 1 – The imports
+
+import numpy as np
+import matplotlib.pyplot as plt
+import sys
+from pathlib import Path
+
+Line Meaning
+import numpy as np I want to use NumPy for calculations and arrays
+import matplotlib.pyplot as plt I want to plot graphs
+import sys I want to modify Python's search path
+from pathlib import Path I want to manipulate file paths
+
+
+
+Block 2 – Import your circuits module
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "day3"))
+from circuits import impedance_resistance, impedance_capacitor, impedance_series, modulus_and_phase
+
+Line Meaning
+Path(_file_) Full path of the current script (reponse_freq.py)
+.parent Folder that contains the script → day5
+.parent (2nd time) Parent folder → week1
+/ "day3" We add day3 to the path
+str(...) Converts the path to text
+sys.path.insert(0, ...) Temporarily adds this path to the list of folders where Python searches for modules
+
+ Result: Python can now find circuits.py which is in day3, even if the script is in day5.
+
+---
+
+Block 3 – The circuit parameters
+
+R = 1000
+C = 1e-6
+frequencies = np.logspace(0, 5, 200)
+
+Line Meaning
+R = 1000 Resistance of 1000 ohms (1 kΩ)
+C = 1e-6 Capacitor of 0.000001 farad (1 µF)
+np.logspace(0, 5, 200) 200 frequencies from 10⁰ = 1 Hz to 10⁵ = 100,000 Hz, spaced logarithmically
+
+np.logspace for Bode plots: many points at low frequencies, fewer at high frequencies.
+
+
+
+Block 4 – The empty lists
+
+modules = []
+phases = []
+
+Two empty lists. They will fill up as the calculations proceed.
+
+
+
+Block 5 – The calculation loop
+
+for f in frequencies:
+    z_r = impedance_resistance(R)
+    z_c = impedance_capacitor(C, f)
+    z_eq = impedance_series(z_r, z_c)
+    mod, ph = modulus_and_phase(z_eq)
+    modules.append(mod)
+    phases.append(ph)
+
+Line Meaning
+for f in frequencies: For each frequency in the array
+z_r = impedance_resistance(R) Calculates the impedance of the resistor (1000 Ω)
+z_c = impedance_capacitor(C, f) Calculates the impedance of the capacitor at frequency f
+z_eq = impedance_series(z_r, z_c) Adds the two impedances (series circuit)
+mod, ph = modulus_and_phase(z_eq) Retrieves the modulus (Ω) and the phase (degrees)
+modules.append(mod) Adds the modulus to the list
+phases.append(ph) Adds the phase to the list
+
+This loop performs 200 iterations (one per frequency). It fills the two lists with the results.
+
+
+
+Block 6 – Create the figure and the two subplots
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
+
+Element Meaning
+plt.subplots(2, 1) Creates 2 rows, 1 column of graphs
+figsize=(10,  Size of the figure in inches (width 10, height 
+fig The entire figure
+(ax1, ax2) The two subplots: ax1 (top), ax2 (bottom)
+
+
+
+Block 7 – Top graph (modulus)
+
+ax1.semilogx(frequencies, modules)
+ax1.set_ylabel("Modulus (Ω)")
+ax1.set_title("Frequency response – RC low-pass filter")
+ax1.grid(True)
+
+Line Meaning
+ax1.semilogx(...) Plots the modulus as a function of frequency, with logarithmic X axis
+set_ylabel(...) Y-axis label
+set_title(...) Graph title
+grid(True) Displays the grid
+
+
+
+Block 8 – Bottom graph (phase)
+
+ax2.semilogx(frequencies, phases)
+ax2.set_xlabel("Frequency (Hz)")
+ax2.set_ylabel("Phase (°)")
+ax2.grid(True)
+
+
+
+Block 9 – Saving and displaying
+
+plt.tight_layout()
+plt.savefig("01_foundations/week1/day5/data/reponse_RC.png")
+plt.show()
+
+Line Meaning
+tight_layout() Automatically adjusts spacing to avoid overlaps
+savefig(...) Saves the figure as PNG in the data/ folder
+show() Displays the figure on screen

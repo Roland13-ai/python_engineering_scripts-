@@ -1,4 +1,5 @@
-# Exercise 1 — Controlling 2 LEDs via Bluetooth (HC-05)
+
+#Exercise1 controlling 2 LEDs via Bluetooth (HC-05)
 
 ## Objective
 Control 2 LEDs using commands received via Bluetooth (HC-05 module),
@@ -6,20 +7,20 @@ using the "Serial Bluetooth Terminal" app on a smartphone.
 
 ## Files
 - 1erExo.ino: Arduino source code
-- cablage_proteus_arduino_base.jpg: Wiring diagram created in Proteus 9
+- wiring_proteus_arduino_basics.jpg: Wiring diagram created in Proteus 9
 
 ## Code Operation
 - SoftwareSerial BT(10, 11): Software serial communication with the HC-05
 
 (pin 10 = RX, pin 11 = TX)
-- Pin 7 → lamp1, Pin 8 → lamp2
+- Pin 7 → light1, Pin 8 → light2
 - Commands received via Bluetooth:
 
-- 1 → turns on lamp1
+- 1 → turns on light1
 
-- 2 → turns on lamp2
+- 2 → turns on light2
 
-- 0 → turns off both lamps
+- 0 → turns off both lights
 
 ## Proteus Simulation
 The diagram cablage_proteus_arduino_base.jpg shows the basic setup

@@ -1,0 +1,316 @@
+Python Syntax – Complete recap (Days 1 to 5)
+
+1. Imports
+
+Syntax Meaning Example
+import module Import an entire module import numpy
+import module as alias Import with a nickname import numpy as np
+from module import thing Import a specific part from pathlib import Path
+from module import a, b, c Import several elements from circuits import impedance_resistance, impedance_capacitor
+
+2. Variables and basic types
+
+Syntax Meaning Example
+x = value Create a variable R = 1000
+"text" Character string (string) "Hello"
+42 Integer number (int) freq = 50
+3.14 Decimal number (float) pi = 3.14
+1e-6 Scientific notation 0.000001
+True / False Booleans is_valid = True
+[] Empty list modules = []
+[1, 2, 3] List with values values = [10, 20, 30]
+
+3. Operations
+
+Syntax Meaning Example
++ Addition z1 + z2
+- Subtraction a - b
+* Multiplication voltage * current
+/ Division voltage / R
+** Power x**2 (x squared)
+@ Matrix product A @ B
+
+4. Functions
+
+Syntax Meaning Example
+def name(): Define a function without parameters def hello():
+def name(p1, p2): Define a function with parameters def impedance_series(z1, z2):
+return value Return a result return z1 + z2
+return a, b Return several values return abs(z), np.angle(z, deg=True)
+function_name(...) Call a function impedance_resistance(1000)
+
+5. Complex numbers
+
+Syntax Meaning Example
+complex(a, b) Create a complex number a + bj complex(1000, 0)
+abs(z) Modulus of the complex number abs(1000 - 3183j) → 3336.48
+np.angle(z) Phase in radians np.angle(z)
+np.angle(z, deg=True) Phase in degrees np.angle(z, deg=True) → -72.56
+
+6. Conditions and loops
+
+Syntax Meaning Example
+if condition: If the condition is true if x > 5:
+else: Otherwise else:
+for element in list: For each element for f in frequencies:
+for i in range(n): Repeat n times for i in range(10):
+
+7. Lists (useful methods)
+
+Syntax Meaning Example
+list.append(x) Add an element at the end modules.append(mod)
+list[i] Access element i row[0] (first element)
+len(list) Number of elements len(frequencies)
+
+8. NumPy (arrays and operations)
+
+Syntax Meaning Example
+np.array([...]) Create an array np.array([1, 2, 3])
+np.linspace(a, b, n) n regular values from a to b np.linspace(0, 5, 10)
+np.logspace(a, b, n) n logarithmic values from 10ᵃ to 10ᵇ np.logspace(0, 5, 200)
+array > value Boolean mask voltages[voltages > 2.5]
+np.linalg.solve(A, B) Solve A·X = B np.linalg.solve(A, B)
+np.pi The constant π 2 * np.pi * f
+
+9. Matplotlib (graphs)
+
+Syntax Meaning Example
+plt.subplots(...) Create a figure and axes fig, (ax1, ax2) = plt.subplots(2, 1)
+ax.plot(x, y) Plot a curve ax1.plot(freqs, modules)
+ax.semilogx(x, y) Plot with logarithmic X axis ax1.semilogx(freqs, modules)
+ax.set_xlabel(...) X-axis label ax2.set_xlabel("Frequency (Hz)")
+ax.set_ylabel(...) Y-axis label ax1.set_ylabel("Modulus (Ω)")
+ax.set_title(...) Graph title ax1.set_title("Frequency response")
+ax.grid(True) Display the grid ax1.grid(True)
+plt.tight_layout() Adjust spacing plt.tight_layout()
+plt.savefig(...) Save as image plt.savefig("data/curve.png")
+plt.show() Display the figure plt.show()
+
+10. Files and paths
+
+Syntax Meaning Example
+Path("folder") Create a path object Path("data")
+folder / "file" Concatenate a path folder / "data.csv"
+folder.mkdir(exist_ok=True) Create a folder data_dir.mkdir(exist_ok=True)
+open(path, "w") Open for writing open("test.txt", "w")
+open(path, "r") Open for reading open("test.txt", "r")
+with open(...) as f: Open cleanly (auto close) with open("test.txt", "w") as f:
+f.write(...) Write text f.write("Hello\n")
+f.read() Read the entire file content = f.read()
+
+11. CSV
+
+Syntax Meaning Example
+csv.writer(f) Prepare CSV writing writer = csv.writer(f)
+csv.reader(f) Prepare CSV reading reader = csv.reader(f)
+writer.writerow([...]) Write a line writer.writerow(["Freq", "Modulus", "Phase"])
+next(reader) Skip a line next(reader) (header)
+
+12. Error handling
+
+Syntax Meaning Example
+try: Try a block try:
+except ErrorType: Catch an error except PermissionError:
+except Exception as e: Catch any error except Exception as e:
+
+13. String formatting
+
+Syntax Meaning Example
+f"... {variable} ..." Insert a variable into text f"R = {R} Ω"
+{value:.2f} Format with 2 decimals f"{module:.2f}"
+\n Line break "Line1\nLine2"
+
+14. Miscellaneous
+
+Syntax Meaning Example
+_file_ Path of the current script Path(_file_)
+_version_ Version of a module np.__version__
+# comment Comment (ignored by Python) # This is a comment
+"""docstring""" Documentation of a function See circuits.py
+
+
+
+– Problems and solutions
+
+
+Day 1 – Environment and local Git
+
+ Problem 1: python -m venv inge_env failed
+
+Cause: The inge_env folder already existed (first attempt succeeded, second blocked).
+Solution: Delete the folder with Windows Explorer (because Remove-Item was locked), then run python -m venv inge_env again.
+
+ Problem 2: Activation with .\inge_venv\Scripts\Activate.ps1
+
+Cause: Typo (inge_venv instead of inge_env).
+Solution: Type the exact folder name: .\inge_env\Scripts\Activate.ps1.
+
+ Problem 3: git confi user.email instead of git config
+
+Cause: Typo.
+Solution: Reread the command before pressing Enter.
+
+ Problem 4: np._version_ instead of np.__version__
+
+Cause: Confusion between a single underscore and two underscores.
+Solution: np.__version__ (double underscore before and after).
+
+
+
+Day 2 – SSH, GitHub and first push
+
+ Problem 5: ssh-heygen instead of ssh-keygen
+
+Cause: Typo (y instead of k).
+Solution: Type ssh-keygen.
+
+ Problem 6: Terminal blocked after pasting the entire history
+
+Cause: Bad copy-paste (the entire history instead of the command).
+Solution: Ctrl+C to cancel, or close the terminal (trash icon) and open a new one.
+
+ Problem 7: Get-Content -/.ssh/id_ed25519.pub (hyphen instead of tilde)
+
+Cause: -/.ssh instead of ~/.ssh.
+Solution: Use ~/.ssh/... or the full path C:\Users\ADMIN\.ssh\....
+
+ Problem 8: The SSH and GPG keys option not found
+
+Cause: Simplified mobile interface.
+Solution: Do the operation on the PC, or enable "Desktop version" in the mobile browser.
+
+ Problem 9: git remote add origin git@github.com: Roland13-ai/... (space after )
+
+Cause: Parasitic space after the colon.
+Solution: Remove the space: git@github.com:Roland13-ai/....
+
+ Problem 10: Could not resolve hostname github.com
+
+Cause: Temporary network problem (DNS).
+Solution: Check the connection with ping github.com. If the ping works, restart VS Code.
+
+ Problem 11: Repository not found
+
+Cause: The repository name on GitHub did not match the local name.
+Solution: Rename the repository on GitHub (Settings → Repository name).
+
+ Problem 12: Infinite scrolling of inge_env/ files
+
+Cause: The .gitignore was not at the root. git add . indexed thousands of files.
+Solution:
+
+1. Ctrl+C to stop.
+2. git rm -r --cached inge_env to remove the folder from the index.
+3. Create .gitignore at the root with the appropriate content.
+4. git add .gitignore then git commit.
+
+
+
+Day 3 – circuits.py module
+
+ Problem 13: TypeError: unsupported format string passed to function.__format__
+
+Cause: Calling a function without parentheses. z_r contained the function itself, not its result.
+Solution: Write z_r = impedance_resistance(r) with parentheses and parameters.
+
+ Problem 14: ModuleNotFoundError: No module named 'circuits'
+
+Cause: Python cannot find the module in the current folder.
+Solution: Move to the folder containing circuits.py (cd 01_foundations\week1\day3) or use sys.path.insert.
+
+ Problem 15: SyntaxWarning on a docstring
+
+Cause: Code misplaced after the triple quotes """.
+Solution: Check that the docstring is properly closed and that the code is on the next line.
+
+---
+
+Day 4 – CSV, pathlib, try/except
+
+ Problem 16: NameError: name 'file' is not defined
+
+Cause: file instead of _file_ (one underscore instead of two).
+Solution: Always use _file_ with two underscores.
+
+ Problem 17: FileNotFoundError for read_csv.py
+
+Cause: The file had not been created yet.
+Solution: Create the file in the VS Code editor before running it.
+
+---
+
+Day 5 – NumPy and Matplotlib
+
+ Problem 18: Terminal blocked after plt.show()
+
+Cause: The graphic window stays open and blocks the terminal.
+Solution: Close the graph window (X). The prompt reappears automatically.
+
+ Problem 19: git add alone (without the dot)
+
+Cause: Forgot the dot.
+Solution: git add . (the dot means "everything that changed in the current folder").
+
+---
+
+Day 6 – JupyterLab and Git conflict
+
+ Problem 20: SyntaxError: unterminated string literal in Markdown
+
+Cause: Unclosed quotes or missing $$.
+Solution: Check that each $$ or $ is properly closed.
+
+ Problem 21: circuits not recognized in the notebook
+
+Cause: Incorrect path to day3.
+Solution: Use Path.cwd().parent / "day3".
+
+ Problem 22: git push rejected (rejected)
+
+Cause: The remote repository has commits that you do not have locally.
+Solution: git pull --rebase origin main then git push.
+If a conflict appears, resolve it manually.
+
+ Problem 23: Rebase conflict (course_of_the_day file)
+
+Cause: The file was modified both locally and on GitHub.
+Solution:
+
+1. Open the file, remove the conflict markers (<<<<<<<, =======, >>>>>>>).
+2. git add the file.
+3. git rebase --continue.
+4. If stuck in Vim: Esc then :wq then Enter.
+
+ Problem 24: Stuck in Vim
+
+Cause: git rebase --continue opened the Vim editor.
+Solution: Esc, then :wq, then Enter.
+If you want to cancel everything: git rebase --abort.
+
+ Problem 25: detached HEAD
+
+Cause: The rebase detached the branch head.
+Solution: git checkout main to return to the main branch.
+
+ Problem 26: Ultimate rescue plan
+
+Cause: Situation too muddled.
+Solution:
+
+git rebase --abort          # Cancel the rebase
+git checkout main           # Return to main
+git pull origin main        # Retrieve the remote
+git add .                   # Add the modifications
+git commit -m "message"     # Commit
+git push                    # Push
+git push --force-with-lease # As a last resort
+
+Command Usage
+Ctrl+C Cancel a command in progress
+git status View the current state of the repository
+git rebase --abort Cancel a blocked rebase
+git checkout main Return to the main branch
+git rm -r --cached folder Remove a folder from the Git index
+git push --force-with-lease Force the push (with caution)
+ping github.com Test the connection to GitHub
+Esc :wq Enter Quit Vim

@@ -1,0 +1,127 @@
+SUMMARY 
+CSV Files, pathlib, csv, sys
+
+
+Objective of the day
+
+Learn to:
+· Save calculation results to a CSV file.
+· Read this file back to analyze the data.
+· Organize files into folders with pathlib.
+· Protect your code with try/except.
+
+File structure
+
+export_csv.py ==> Script that calculates and saves the data
+read_csv.py  ==>  Script that reads the data back and plots a graph
+data ==>       ← Folder created automatically
+    frequency_response_RC.csv =  Data file (table of numbers)
+    frequency_response_RC.png =  Graph saved as an image
+
+
+
+The steps 
+
+1. Import the tools
+
+import csv   # Module for reading/writing CSV files
+from pathlib import Path  # Module for manipulating file paths
+
+· csv: tool already installed with Python. Helps structure data into columns separated by commas.
+· pathlib.Path: tool already installed with Python. Allows manipulating folder/file paths without worrying about Windows (\) or Linux (/).
+
+
+
+2. Create a folder with pathlib
+
+folder = Path("data")           # Declares a path to the "data" folder
+folder.mkdir(exist_ok=True)     # Creates the folder if it does not exist
+
+· Path("data"): "data" is the name of the folder.
+· folder.mkdir(exist_ok=True): physically creates the folder. exist_ok=True avoids an error if the folder already exists.
+
+3. Link a file to the folder
+
+path = folder / "my_file.csv
+
+· The / with Path concatenates the folder and the file name cleanly (compatible with Windows and Linux).
+· "my_file.csv" is the name of your file.
+
+
+4. Difference between csv.writer and f.write
+
+ f.write() csv.writer
+Writes raw text Structured data in columns
+Example f.write("Hello\n") writer.writerow(["100", "3500", "-60"])
+Usage Notes, logs, free text Tabular data, exports for Excel
+
+For electrical simulations, csv.writer is used because the data is in columns.
+
+5. Writing a CSV file (script export_csv.py)
+
+# Opening the file for writing ("w")
+with open(path, "w", newline="", encoding="utf-8") as f:
+    writer = csv.writer(f)                          # Prepares the CSV writer
+    writer.writerow(["Frequency (Hz)", "Modulus (Ohm)", "Phase (deg)"])  # Header
+    writer.writerow(["10", "5000", "-80"])          # Data line
+    writer.writerow(["100", "3500", "-60"])         # Data line
+
+· with open(...) as f: : opens the file and guarantees its automatic closing.
+· "w" : write mode (overwrites the file if it exists).
+· newline="" : avoids empty parasitic lines on Windows.
+· csv.writer(f) : creates an object that writes to the file in CSV format.
+· writer.writerow([...]) : writes a line. Each element of the list = one column.
+6. Reading a CSV file (script read_csv.py)
+
+with open(path, "r", encoding="utf-8") as f:
+    reader = csv.reader(f)     # Prepares the CSV reader
+    next(reader)               # Skips the first line (header)
+    for row in reader:         # For each remaining line...
+        freq = float(row[0])   # Column 1: frequency
+        module = float(row[1]) # Column 2: modulus
+        phase = float(row[2])  # Column 3: phase
+
+· "r" : read mode.
+· csv.reader(f) : reads the CSV file line by line.
+· next(reader) : skips the header line.
+· row[0], row[1], row[2] : access to columns (the first column = index 0).
+· float(...) : converts text to a number.
+
+
+
+7. Error handling with try/except
+
+try:
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        # ... writing ...
+except PermissionError:
+    print("Error: file open elsewhere (Excel?). Close it and try again.")
+except Exception as e:
+    print(f"Unexpected error: {e}")
+
+· try: "try to execute this block".
+· except PermissionError: "if the file is already open elsewhere, display this message instead of crashing".
+· except Exception as e: "for any other error, display the error message".
+
+
+8. sys.path.insert
+The circuits.py module is in day3. We must bring it here . 
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent / "day3"))
+from circuits import impedance_resistance,
+
+· sys.path : list of folders where Python searches for modules to import.
+· sys.path.insert(0, path) : temporarily adds a folder at the beginning of this list.
+· Path(_file_).parent.parent / "day3" : goes up one folder (..) then goes into day3.
+This avoids copying circuits.py everywhere.
+
+
+What is standard and what is free
+Element Standard / Free
+import csv, from pathlib import Path  Standard (Python modules)
+with open(...) as f: (recommended)
+try/except (recommended)
+Folder name ("data") Free
+File name ("my_file.csv")  Free
+Variable names (folder, path) Free
+Values of R, C, frequencies Free
