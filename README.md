@@ -31,8 +31,10 @@ Python/Arduino-adjacent hardware exercises. See [`04_Arduino/NOTES.md`](./04_Ard
 1. Clone the repo
    ```bash
    git clone https://github.com/Roland13-ai/python-engineering-scripts.git
-2. Install dependencies
+2. Install dependencies:
 numpy scipy sympy matplotlib
 3. Run any script or open a notebook with Jupyter
+   
 Notes
+
 This repo evolves as I learn — folders will grow as new topics and projects are added.
